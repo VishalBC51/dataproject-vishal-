@@ -3,68 +3,103 @@ var fs = require('fs');
 let deliveries = "deliveries.csv";
 let matches = 'matches.csv';
 
-// var data = fs.readFile('C2ImportCalEventSample.csv', 'utf8');
-// var matchData =
-
-
-function readfilefunc(data){
+function readfilefunc(data) {
     // console.log(data.toString());
-  return fs.readFileSync(data, 'utf8').toString().split('\n')
-//   return data.toString().split('\n');
+    return fs.readFileSync(data, 'utf8').toString().split('\n');
+    //   return data.toString().split('\n');
 };
 
-var matchData=readfilefunc(matches);
+var matchData = readfilefunc(matches);
 // console.log(matchData.length)
-matchesPerYear={};
+matchesPerYear = {};
+arrOfYears = [];
+// eachteamwinnigcount = []
+arrOfteams = {};
 
-// function makeobject(key,value)
-// {
-//     this.key = key;
-//     this.value = value;
-// }
-for(let i =1; i < matchData.length -1 ; i++)
-{
+
+for (let i = 1; i < matchData.length - 1; i++) {
     const tempArr = matchData[i].split(',');
-    if( matchesPerYear[tempArr[1]] == undefined)
-     matchesPerYear[tempArr[1]] = 0;
-     else
-     matchesPerYear[tempArr[1]] = matchesPerYear[tempArr[1]]+1;
+    if (matchesPerYear[tempArr[1]] == undefined) {
+    matchesPerYear[tempArr[1]] = 1;
+        // yearwiseWinningPerTeam[tempArr[1]] = 1;
+        // eachteamwinnigcount[tempArr[5]] = 1;
+        // eachteamwinnigcount[tempArr[6]] = 1;
+    }
+    else
+        matchesPerYear[tempArr[1]] = matchesPerYear[tempArr[1]] + 1;
     // matchesPerYear[tempArr[1]] = matchesPerYear[tempArr[1]] ? Number(matchesPerYear[tempArr[1]]) + 1 : 1
     //
     // console.log(tempArr[1]);
-    
+    if (arrOfteams[tempArr[5]] == undefined && arrOfteams[tempArr[6]] == undefined) {
+        arrOfteams[tempArr[5]] = 1;
+        arrOfteams[tempArr[6]] = 1;
+    }
 }
-module.exports.machesPerYear=matchesPerYear;
-// module.exports.require = require;
-// console.log(Object.keys(matchesPerYear));
+// console.log(matchesPerYear);
 
-// var require = (function () {
-//     var cache = {};
-//     function loadScript(url) {
-//         var xhr = new XMLHttpRequest(),
-//             fnBody;
-//         xhr.open('get', url, false);
-//         xhr.send();
-//         if (xhr.status === 200 && xhr.getResponseHeader('Content-Type') === 'application/x-javascript') {
-//             fnBody = 'var exports = {};\n' + xhr.responseText + '\nreturn exports;';
-//             cache[url] = (new Function(fnBody)).call({});
-//         }
-//     }
-//     function resolve(module) {
-//         //TODO resolve urls
-//         return module;
-//     }
-//     function require(module) {
-//         var url = resolve(module);
-//         if (!Object.prototype.hasOwnProperty.call(cache, url)) {
-//             loadScript(url);
-//         }
-//         return cache[url];
-//     }
-//     require.cache = cache;
-//     require.resolve = resolve;
-//     return require;
-// }());
+
+//------------------------------------part 2 ----------------------------------------
+//------Array of Years--------------------------
+arrOfYears = Object.keys(matchesPerYear);
+//------Array of teams--------------------------
+// arrOfteams 
+module.exports.machesPerYear = matchesPerYear;
+
+
+//----------it contains both teams and winnig array---------------------------
+ var arrTeamAndWinningCount = Array(Object.keys(arrOfteams).length);
+
+ var teamswinningPeryear =  Array(arrOfYears.length);
+ teamswinningPeryear.fill(0);
+
+//  for(var w =0 ;w<arrOfYears)
+arrTeamAndWinningCount.fill({
+    name :"",
+    data:teamswinningPeryear
+});
+console.log(arrTeamAndWinningCount)
+
+//  console.log(arrTeamAndWinningCount);
+// eachteamwinnigcount ={}
+// let count =0;
+// arrTeamAndWinningCount[0][0].name= "pune";
+// arrTeamAndWinningCount[0].data= 123123;
+
+// console.log(arrTeamAndWinningCount[1].name)
+// console.log(arrTeamAndWinningCount)
+
+for (let i = 1; i < matchData.length - 1; i++) {
+    const tempArr1 = matchData[i].split(',');
+    var index =  arrOfYears.indexOf(""+tempArr1[1]);
+//  console.log(tempArr1[10])
+     
+    // for(let p=0 ; p<Object.keys(arrOfteams).length ; p++)
+    // {  
+    //     console.log(arrTeamAndWinningCount[p].name)
+    //     if(arrTeamAndWinningCount[p].name === ""){
+    //         // arrTeamAndWinningCount[p].name =tempArr1[10];
+    //     //   console.log("here")
+    //         arrTeamAndWinningCount[p].data[index]= arrTeamAndWinningCount[p].data[index]+1;
+    //         break;
+    //     }
+    // //    else if(arrTeamAndWinningCount[p].name === (tempArr1[10])){
+    // //     console.log( arrTeamAndWinningCount[p].name+"    "+tempArr1[10])
+    // //         arrTeamAndWinningCount[p].data[index]= arrTeamAndWinningCount[p].data[index]+1;
+    // //         break;
+    // //     }
+    // }
+    //  else
+    //  matchesPerYear[tempArr[1]] = matchesPerYear[tempArr[1]]+1;
+    // matchesPerYear[tempArr[1]] = matchesPerYear[tempArr[1]] ? Number(matchesPerYear[tempArr[1]]) + 1 : 1
+    //
+    // console.log(tempArr[1]);
+}
+// console.log( arrTeamAndWinningCount);
+// console.log(arrTeamAndWinningCount)
+
+
+
+
 
 
 
