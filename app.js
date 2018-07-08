@@ -1,56 +1,141 @@
-var mdata = require('./csvExtract.js');
-// var myScript = document.createElement('script'); // Create new script element
-// myScript.type = 'text/javascript'; // Set appropriate type
-// myScript.src = './csvExtract.js'; // Load javascript file
-// mdata.machesPerYear
-// var firstChart = {};
-// firstChart.title = {
-//     text : "Hello"
-// }
-// $('#container').highcharts(firstChart);
+const fs = require('fs')
+const path = require('path')
 
-// Highcharts.chart('container', {
-//     chart: {
-//         type: 'column'
-//     },
-//     title: {
-//         text: 'Matches played per year'
-//     },
-//     subtitle: {
-//         text: 'Source: WorldClimate.com'
-//     },
-//     xAxis: {
-//         categories: Object.keys(mdata.matchesPerYear), crosshair: true
-//     },
-//     yAxis: {
-//         min: 0,
-//         title: {
-//             text: 'Rainfall (mm)'
-//         }
-//     },
-//     tooltip: {
-//         headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-//         pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-//             '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
-//         footerFormat: '</table>',
-//         shared: true,
-//         useHTML: true
-//     },
-//     plotOptions: {
-//         column: {
-//             pointPadding: 0.2,
-//             borderWidth: 0
-//         }
-//     },
-//     series: [{
-//         name: Object.keys(mdata.matchesPerYear),
-//         data: Object.values(mdata.matchesPerYear)
-//     }]
-// });
+const dataset = path.resolve("data/matches.csv")
+const dataset2 = path.resolve("data/deliveries.csv")
+// console.log(dataset)
+let matchesPerSeasonVar = function (dataset) {
+    return new Promise(function (resolve, reject) {
+        let matchesPerSeason = {}
+        fs.readFile(dataset, function (err, data) {
+            if (err) {
+                reject(err)
+            } else {
+
+                data.toString().split("\n").forEach(function (line, index, arr) {
+                    if (index !== 0) {
+                        const match = line.split(",")
+                        const season = match[1]
+                        if (season !== "" && season !== undefined && season !== null) {
+
+                            if (matchesPerSeason.hasOwnProperty(season)) {
+                                matchesPerSeason[season]++
+                            } else {
+                                matchesPerSeason[season] = 1
+                            }
+                        }
+                    }
+                })
+            }
+            // console.log(matchesPerSeason);
+            resolve(matchesPerSeason)
+        })
+    })
+}
+matchesPerSeasonVar(dataset)
 
 
+let seasonPerTeamWinningVar = function (dataset) {
+    return new Promise(function (resolve, reject) {
+        let seasonPerTeamWinning = {};
+        let flag = true
+        fs.readFile(dataset, function (err, data) {
+            if (err) {
+                reject(err)
+            } else {
+                data.toString().split("\n").forEach(function (line, index, arr) {
+
+                    if (index !== 0) {
+                        const match = line.split(",")
+                        const season = match[1];
+                        const team = match[10];
+                        if (seasonPerTeamWinning[season] === undefined) {
+                            let arr = []
+                            let obj = {}
+                            obj[team] = 1;
+                            arr.push(obj)
+                            seasonPerTeamWinning[season] = arr;
+
+                        } else {
+                            if (seasonPerTeamWinning[season][0][team] === undefined) {
+                                seasonPerTeamWinning[season][0][team] = 1;
+
+                            } else {
+                                seasonPerTeamWinning[season][0][team]++;
+                            }
+                        }
+                    }
+                }
+                )
+
+            }
+            // console.log(seasonPerTeamWinning);
+
+            resolve(seasonPerTeamWinning)
+        })
+    })
+}
+seasonPerTeamWinningVar(dataset)
 
 
 
 
+function ExtraRunsScored(dataset, dataset2) {
+    let extraRunsResult = {};
+    return new Promise(function (resolve, reject) {
+        let matchId2016 = [];
+        // console.log(matchId2016);
+        fs.readFile(dataset, function (err1, data1) {
+            if (err1)
+                reject(err1);
+            else {
+                data1.toString().split("\n").forEach(function (line1, index1, arr1) {
+                    if (index1 != 0) {
+                        let match = line1.split(",");
+                        if (match[1] === '2016') {
+                            matchId2016.push(match[0])
+                        }
+                        fs.readFile(dataset2, function (err2, data2) {
+                            if (err2)
+                                reject(err2);
+                            else {
+                                data2.toString().split("\n").forEach(function (line2, index2, arr2) {
+                                    if (index2 != 0) {
+                                        let match = line2.split(",");
+                                        const id = match[0];
+                                        // console.log(match[0])
+                                        const teamName = match[3];
+                                        const runs = match[16];
+                                        if (runs && teamName && id && matchId2016.includes(id)) {
 
+                                            if (extraRunsResult.hasOwnProperty(teamName)) {
+                                                extraRunsResult[teamName] += runs;
+
+                                            }
+                                            else {
+                                                extraRunsResult[teamName] = runs;
+                                            }
+                                        }
+                                    }
+                                })
+                            }
+
+
+                        })
+                    }
+                    console.log(extraRunsResult);
+                    resolve(extraRunsResult)
+                })
+            }
+        })
+    })
+}
+
+ExtraRunsScored(dataset, dataset2)
+
+
+module.exports = {
+    matchesPerSeasonVar: matchesPerSeasonVar,
+    seasonPerTeamWinningVar: seasonPerTeamWinningVar,
+    ExtraRunsScored: ExtraRunsScored
+}
