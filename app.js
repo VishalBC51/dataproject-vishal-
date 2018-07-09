@@ -78,63 +78,63 @@ seasonPerTeamWinningVar(dataset);
 
 
 
-function extraRunsScored(dataset, dataset2) {
-    let extraRunsResult = {};
-    return new Promise(function (resolve, reject) {
-        let matchId2016 = [];
-        // console.log(matchId2016);
-        let count = 0;
-        fs.readFile(dataset, function (err1, data1) {
-            if (err1)
-                reject(err1);
-            else {
-                data1.toString().split("\n").forEach(function (line1, index1, arr1) {
-                    if (index1 != 0) {
-                        let match = line1.split(",");
-                        // console.log(matchId2016 + "EEs" + match[1])
-                        if (match[1] === '2016') {
-                            matchId2016.push(match[0])
-                            fs.readFile(dataset2, function (err2, data2) {
-                                if (err2)
-                                    reject(err2);
-                                else {
-                                    data2.toString().split("\n").forEach(function (line2, index2, arr2) {
-                                        if (index2 != 0) {
-                                            let match = line2.split(",");
-                                            const id = match[0];
-                                            // console.log(match[0])
-                                            const teamName = match[3];
-                                            const runs = match[16];
-                                            if (runs && teamName && id && matchId2016.includes(id)) {
-                                                console.log(matchId2016);
-                                                if (extraRunsResult.hasOwnProperty(teamName)) {
-                                                    extraRunsResult[teamName] += runs;
+// function extraRunsScored(dataset, dataset2) {
+//     let extraRunsResult = {};
+//     return new Promise(function (resolve, reject) {
+//         let matchId2016 = [];
+//         // console.log(matchId2016);
+//         let count = 0;
+//         fs.readFile(dataset, function (err1, data1) {
+//             if (err1)
+//                 reject(err1);
+//             else {
+//                 data1.toString().split("\n").forEach(function (line1, index1, arr1) {
+//                     if (index1 != 0) {
+//                         let match = line1.split(",");
+//                         // console.log(matchId2016 + "EEs" + match[1])
+//                         if (match[1] === '2016') {
+//                             matchId2016.push(match[0])
+//                             fs.readFile(dataset2, function (err2, data2) {
+//                                 if (err2)
+//                                     reject(err2);
+//                                 else {
+//                                     data2.toString().split("\n").forEach(function (line2, index2, arr2) {
+//                                         if (index2 != 0) {
+//                                             let match = line2.split(",");
+//                                             const id = match[0];
+//                                             // console.log(match[0])
+//                                             const teamName = match[3];
+//                                             const runs = match[16];
+//                                             if (runs && teamName && id && matchId2016.includes(id)) {
+//                                                 console.log(matchId2016);
+//                                                 if (extraRunsResult.hasOwnProperty(teamName)) {
+//                                                     extraRunsResult[teamName] += runs;
 
-                                                }
-                                                else {
-                                                    extraRunsResult[teamName] = runs;
-                                                }
-                                            }
-                                        }
-                                    })
-                                }
-
-
-                            })
-                        }
-                    }
+//                                                 }
+//                                                 else {
+//                                                     extraRunsResult[teamName] = runs;
+//                                                 }
+//                                             }
+//                                         }
+//                                     })
+//                                 }
 
 
-                })
-            }
-            // matchId2016 = [1,2]
-            // console.log(extraRunsResult);
-            resolve(extraRunsResult);
-        })
-    })
-}
+//                             })
+//                         }
+//                     }
 
-extraRunsScored(dataset, dataset2)
+
+//                 })
+//             }
+//             // matchId2016 = [1,2]
+//             // console.log(extraRunsResult);
+//             resolve(extraRunsResult);
+//         })
+//     })
+// }
+
+// extraRunsScored(dataset, dataset2)
 
 
 module.exports = {
