@@ -4,14 +4,13 @@ const path = require("path");
 const dataset = path.resolve("data/matches.csv");
 const dataset2 = path.resolve("data/Testdeliveries.csv");
 // console.log(dataset);
-let matchesPerSeasonVar = function (dataset) {
+let matchesPerYear = function (dataset) {
     return new Promise(function (resolve, reject) {
         let matchesPerSeason = {};
         fs.readFile(dataset, function (err, data) {
             if (err) {
                 reject(err);
             } else {
-
                 data.toString().split("\n").forEach(function (line, index, arr) {
                     if (index !== 0) {
                         const match = line.split(",");
@@ -27,12 +26,12 @@ let matchesPerSeasonVar = function (dataset) {
                     }
                 });
             }
-            // console.log(matchesPerSeason);
+            console.log(matchesPerSeason);
             resolve(matchesPerSeason);
         });
     });
-}
-matchesPerSeasonVar(dataset);
+};
+matchesPerYear(dataset);
 
 let seasonPerTeamWinningVar = function (dataset) {
     return new Promise(function (resolve, reject) {
@@ -48,7 +47,7 @@ let seasonPerTeamWinningVar = function (dataset) {
                         const match = line.split(",");
                         const season = match[1];
                         const team = match[10];
-                        if (seasonPerTeamWinning[season] === undefined) {
+                        if (!(seasonPerTeamWinning[season] )) {
                             let arr = [];
                             let obj = {};
                             obj[team] = 1;
@@ -56,7 +55,7 @@ let seasonPerTeamWinningVar = function (dataset) {
                             seasonPerTeamWinning[season] = arr;
 
                         } else {
-                            if (seasonPerTeamWinning[season][0][team] === undefined) {
+                            if (!(seasonPerTeamWinning[season][0][team])) {
                                 seasonPerTeamWinning[season][0][team] = 1;
 
                             } else {
@@ -65,13 +64,11 @@ let seasonPerTeamWinningVar = function (dataset) {
                         }
                     }
                 });
-
             }
             // console.log(seasonPerTeamWinning);
-
             resolve(seasonPerTeamWinning);
-        })
-    })
+        });
+    });
 }
 seasonPerTeamWinningVar(dataset);
 
@@ -138,7 +135,7 @@ seasonPerTeamWinningVar(dataset);
 
 
 module.exports = {
-    matchesPerSeasonVar: matchesPerSeasonVar,
+    matchesPerYear: matchesPerYear,
     seasonPerTeamWinningVar: seasonPerTeamWinningVar
     // extraRunsScored: extraRunsScored
 }

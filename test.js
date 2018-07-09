@@ -1,12 +1,3 @@
-// let expect = require("chai").expect;
-// let index2 = require("./index2")
-
-// describe("INDEX2",function(){
-//   it("CHECkING part1 results ",function(){
-//     expect(index2.noOFmatchesVsyear()).equal(true);
-//   })
-// })
-
 const expect = require("chai").expect;
 const path = require("path");
 let dataset = path.resolve("data/Testmatches.csv");
@@ -15,8 +6,8 @@ let dataset2 = path.resolve("data/Testdeliveries.csv");
 const operations = require(fileName);
 
 describe("testing first question", function () {
-  it("return false", function (done) {
-    operations.matchesPerSeasonVar(dataset).then(function (data) {
+  xit("return false", function (done) {
+    operations.matchesPerYear(dataset).then(function (data) {
       try {
         // expect(data).to.deep.equal(false)
         done(); // success: call done with no parameter to indicate that it() is done()
@@ -32,7 +23,7 @@ describe("testing first question", function () {
       2008: 1
     };
 
-    operations.matchesPerSeasonVar(dataset).then(function (data) {
+    operations.matchesPerYear(dataset).then(function (data) {
       try {
         expect(data).to.deep.equal(expectedResult);
         done(); // success: call done with no parameter to indicate that it() is done()
@@ -48,7 +39,7 @@ describe("testing first question", function () {
       2008: 1
     }
 
-    operations.matchesPerSeasonVar(dataset).then(function (data) {
+    operations.matchesPerYear(dataset).then(function (data) {
       try {
         expect(data).to.deep.equal(expectedResult);
         done(); // success: call done with no parameter to indicate that it() is done()
@@ -61,7 +52,7 @@ describe("testing first question", function () {
     const expectedResult = {
     }
     let datasettemp = path.resolve("data/empty.csv")
-    operations.matchesPerSeasonVar(datasettemp).then(function (data) {
+    operations.matchesPerYear(datasettemp).then(function (data) {
       try {
         expect(data).to.deep.equal(expectedResult);
         done(); // success: call done with no parameter to indicate that it() is done()
