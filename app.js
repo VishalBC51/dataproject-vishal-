@@ -1,59 +1,58 @@
-const fs = require('fs')
-const path = require('path')
+const fs = require('fs');
+const path = require('path');
 
-const dataset = path.resolve("data/matches.csv")
-const dataset2 = path.resolve("data/Testdeliveries.csv")
-console.log(dataset)
+const dataset = path.resolve("data/matches.csv");
+const dataset2 = path.resolve("data/Testdeliveries.csv");
+console.log(dataset);
 let matchesPerSeasonVar = function (dataset) {
     return new Promise(function (resolve, reject) {
-        let matchesPerSeason = {}
+        let matchesPerSeason = {};
         fs.readFile(dataset, function (err, data) {
             if (err) {
-                reject(err)
+                reject(err);
             } else {
 
                 data.toString().split("\n").forEach(function (line, index, arr) {
                     if (index !== 0) {
-                        const match = line.split(",")
-                        const season = match[1]
+                        const match = line.split(",");
+                        const season = match[1];
                         if (season !== "" && season !== undefined && season !== null) {
 
                             if (matchesPerSeason.hasOwnProperty(season)) {
-                                matchesPerSeason[season]++
+                                matchesPerSeason[season]++;
                             } else {
-                                matchesPerSeason[season] = 1
+                                matchesPerSeason[season] = 1;
                             }
                         }
                     }
                 })
             }
             // console.log(matchesPerSeason);
-            resolve(matchesPerSeason)
-        })
-    })
+            resolve(matchesPerSeason);
+        });
+    });
 }
-matchesPerSeasonVar(dataset)
-
+matchesPerSeasonVar(dataset);
 
 let seasonPerTeamWinningVar = function (dataset) {
     return new Promise(function (resolve, reject) {
         let seasonPerTeamWinning = {};
-        let flag = true
+        let flag = true;
         fs.readFile(dataset, function (err, data) {
             if (err) {
-                reject(err)
+                reject(err);
             } else {
                 data.toString().split("\n").forEach(function (line, index, arr) {
 
                     if (index !== 0) {
-                        const match = line.split(",")
+                        const match = line.split(",");
                         const season = match[1];
                         const team = match[10];
                         if (seasonPerTeamWinning[season] === undefined) {
-                            let arr = []
-                            let obj = {}
+                            let arr = [];
+                            let obj = {};
                             obj[team] = 1;
-                            arr.push(obj)
+                            arr.push(obj);
                             seasonPerTeamWinning[season] = arr;
 
                         } else {
@@ -71,11 +70,11 @@ let seasonPerTeamWinningVar = function (dataset) {
             }
             // console.log(seasonPerTeamWinning);
 
-            resolve(seasonPerTeamWinning)
+            resolve(seasonPerTeamWinning);
         })
     })
 }
-seasonPerTeamWinningVar(dataset)
+seasonPerTeamWinningVar(dataset);
 
 
 
