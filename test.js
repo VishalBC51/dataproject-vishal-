@@ -72,38 +72,39 @@ const operations = require(fileName)
 //   })
 // })
 
-describe("testing second question", function () {
-  it("IT should return empty object", function (done) {
-    operations.seasonPerTeamWinningVar(dataset).then(function (data) {
-      try {
-        let expectresult1 = {}
-        expect({}).to.deep.equal(expectresult1)
-        // let seasonresult2 = [2]
-        // console.log(data1)
-        // expect(data2).to.deep.equal(seasonresult2)
-        done(); // success: call done with no parameter to indicate that it() is done()
-      } catch (e) {
-        done(e); // failure: call done with an error Object to indicate that it() failed
-      }
-    })
-  })
-  it("return each year with single match pair", function (done) {
-    operations.seasonPerTeamWinningVar(dataset).then(function (data) {
-      try {
-        let expectresult = { '2008': [ { 'Chennai Super Kings': 1 } ],
-        '2009': [ { 'Royal Challengers Bangalore': 1, 'Deccan Chargers': 1 } ],
-        '2017': [ { 'Sunrisers Hyderabad': 1 } ] }
-        // console.log(dataset)
-        expect(data).deep.equal(expectresult)
-        done(); // success: call done with no parameter to indicate that it() is done()
-      } catch (e) {
-        done(e); // failure: call done with an error Object to indicate that it() failed
-      }
-    })
-  })
+// describe("testing second question", function () {
+//   it("IT should return empty object", function (done) {
+//     operations.seasonPerTeamWinningVar(dataset).then(function (data) {
+//       try {
+//         let expectresult1 = {}
+//         expect({}).to.deep.equal(expectresult1)
+//         // let seasonresult2 = [2]
+//         // console.log(data1)
+//         // expect(data2).to.deep.equal(seasonresult2)
+//         done(); // success: call done with no parameter to indicate that it() is done()
+//       } catch (e) {
+//         done(e); // failure: call done with an error Object to indicate that it() failed
+//       }
+//     })
+//   })
+
+//   it("return each year with single match pair", function (done) {
+//     operations.seasonPerTeamWinningVar(dataset).then(function (data) {
+//       try {
+//         let expectresult = { '2008': [ { 'Chennai Super Kings': 1 } ],
+//         '2009': [ { 'Royal Challengers Bangalore': 1, 'Deccan Chargers': 1 } ],
+//         '2017': [ { 'Sunrisers Hyderabad': 1 } ] }
+//         // console.log(dataset)
+//         expect(data).deep.equal(expectresult)
+//         done(); // success: call done with no parameter to indicate that it() is done()
+//       } catch (e) {
+//         done(e); // failure: call done with an error Object to indicate that it() failed
+//       }
+//     })
+//   })
 
 
-})
+// })
 
 describe("testing third question", function () {
   it("IT should return empty object", function (done) {
@@ -111,6 +112,18 @@ describe("testing third question", function () {
       try {
         let expectresult1 = {}
         expect({}).to.deep.equal(expectresult1)
+        done(); // success: call done with no parameter to indicate that it() is done()
+      } catch (e) {
+        done(e); // failure: call done with an error Object to indicate that it() failed
+      }
+    })
+  })
+  it("Get all the Id Of matched played in 2016", function (done) {
+    operations.ExtraRunsScored(dataset).then(function (data) {
+      try {
+        let expectresult1 = ["577","578","579","580"];
+        // console.log(data)
+        expect(data).to.deep.equal(expectresult1);
         done(); // success: call done with no parameter to indicate that it() is done()
       } catch (e) {
         done(e); // failure: call done with an error Object to indicate that it() failed
