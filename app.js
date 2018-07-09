@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 const dataset = path.resolve("data/matches.csv");
-const dataset2 = path.resolve("data/Testdeliveries.csv");
+const dataset2 = path.resolve("data/deliveries.csv");
 // console.log(dataset);
 let matchesPerYear = function (dataset) {
     return new Promise(function (resolve, reject) {
@@ -26,7 +26,7 @@ let matchesPerYear = function (dataset) {
                     }
                 });
             }
-            console.log(matchesPerSeason);
+            // console.log(matchesPerSeason);
             resolve(matchesPerSeason);
         });
     });
@@ -36,7 +36,6 @@ matchesPerYear(dataset);
 let seasonPerTeamWinningVar = function (dataset) {
     return new Promise(function (resolve, reject) {
         let seasonPerTeamWinning = {};
-        let flag = true;
         fs.readFile(dataset, function (err, data) {
             if (err) {
                 reject(err);
@@ -69,7 +68,7 @@ let seasonPerTeamWinningVar = function (dataset) {
             resolve(seasonPerTeamWinning);
         });
     });
-}
+};
 seasonPerTeamWinningVar(dataset);
 
 
