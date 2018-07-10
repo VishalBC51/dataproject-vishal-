@@ -191,7 +191,7 @@ xdescribe("testing forth question", function () {
   //       expect(t1).deep.equal(res);
   
   // });
-  it("integrating all function", function (done) {
+  xit("integrating all function", function (done) {
     // let obj = { 'HH Pandya': 18, 'AD Russell': 14 };
     operations.topEconomicBowler(dataset, dataset2).then(function (data) {
       try {
@@ -205,4 +205,19 @@ xdescribe("testing forth question", function () {
       }
     });
   });
-})
+});
+
+describe("testing fifth question", function () {
+  it("return false", function (done) {
+    let idOf2017 = ["577","578"]
+    let expectedResult = { 'AM Rahane': 36, 'MA Agarwal': 28 }
+    operations.getScoreOfEachBatsman(dataset2, idOf2017).then(function (data) {
+      try {
+        expect(data).to.deep.equal(expectedResult)
+        done(); // success: call done with no parameter to indicate that it() is done()
+      } catch (e) {
+        done(e); // failure: call done with an error Object to indicate that it() failed
+      }
+    });
+  });
+});

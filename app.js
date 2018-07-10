@@ -1,9 +1,9 @@
 const fs = require("fs");
 const path = require("path");
-
 const dataset = path.resolve("data/matches.csv");
 const dataset2 = path.resolve("data/deliveries.csv");
-// console.log(dataset);
+
+
 let matchesPerYear = function (dataset) {
     return new Promise(function (resolve, reject) {
         let matchesPerSeason = {};
@@ -33,6 +33,9 @@ let matchesPerYear = function (dataset) {
 };
 matchesPerYear(dataset);
 
+//-------------------------------question2--------------------------------------------------
+
+
 let seasonPerTeamWinningVar = function (dataset) {
     return new Promise(function (resolve, reject) {
         let seasonPerTeamWinning = {};
@@ -41,7 +44,6 @@ let seasonPerTeamWinningVar = function (dataset) {
                 reject(err);
             } else {
                 data.toString().split("\n").forEach(function (line, index, arr) {
-
                     if (index !== 0) {
                         const match = line.split(",");
                         const season = match[1];
@@ -64,7 +66,7 @@ let seasonPerTeamWinningVar = function (dataset) {
                     }
                 });
             }
-            // console.log(seasonPerTeamWinning);
+            console.log(seasonPerTeamWinning);
             resolve(seasonPerTeamWinning);
         });
     });
@@ -73,8 +75,9 @@ seasonPerTeamWinningVar(dataset);
 
 
 
+//----------------------------question3------------------------------------
 
-
+//this function is used for question no.3,4,5
 function getMatchId(dataset, yearOf) {
     let matchId = [];
     return new Promise(function (resolve, reject) {
@@ -95,20 +98,13 @@ function getMatchId(dataset, yearOf) {
                 })
             }
             // console.log(matchId);
-
             resolve(matchId);
         })
     })
 }
 
-// getMatchId(dataset,"2016")
-// getMatchId(dataset, "2016").then(async function (data) {
-//     let extraruns =await getExtraRunsPerTeam(dataset2, data);
-//     console.log(extraruns)
-// });
-// let extraRuns = {};
  getExtraRunsPerTeam(dataset, dataset2).then(function(result) {
-    console.log(result) //will log results.
+    // console.log(result) //will log results.
  });
 // getExtraRunsPerTeam(dataset, dataset2)
 function getExtraRunsPerTeam(dataset, dataset2) {
@@ -140,6 +136,8 @@ function getExtraRunsPerTeam(dataset, dataset2) {
         });
     });
 }
+
+// ---------------------------------question 4----------------------------------------
 
 function getBollsCountAndRunsEachBowler(dataset2, idOf2015) {
     let bowlerBRuns = {};
@@ -173,55 +171,22 @@ function getBollsCountAndRunsEachBowler(dataset2, idOf2015) {
         });
     });
 }
-// let arr= ['577','578'];
-// let dataset3 = path.resolve("data/Testdeliveries.csv");
-// let dataset4 = path.resolve("data/Testmatches.csv");
-// console.log(topEconomicBowler(dataset, dataset2));
-// function topEconomicBowler(dataset, dataset2) {
-//     getMatchId(dataset, "2015").then(function (data6) {
-//         getBollsCountAndRunsEachBowler(dataset2, data6).then(function (data7) {
-//             getEconomicRateOfEachBowler(data7).then(function (gettingFinalValue) {
-//                 return (gettingFinalValue);
-//             })
-//         });
-//     });
-// }
-// console.log(topEconomicBowler(dataset, dataset2));
-// async function topEconomicBowler(dataset, dataset2) {
-   
-    
-    
-   
-    
-//     let gettingFinalValue = await getEconomicRateOfEachBowler();
-//    // console.log(gettingFinalValue);
-//    return gettingFinalValue;
-//     // gettingFinalValue.then(function(result) {
-//     //     console.log(result);
-//     //  })
 
-// }
-// bowlerBRuns = { 'HH Pandya':  { count: 12, totalRuns: 36 } ,
-//   'AD Russell':  { count: 12, totalRuns: 28 }  };
-//   getEconomicRateOfEachBowler(bowlerBRuns);
+//to resolve promise function
 getEconomicRateOfEachBowler().then(function(result) {
     // console.log(result) //will log results.
  });
 
 async function getEconomicRateOfEachBowler() {
-    //  console.log(ID);
     let idOf2015 = await getMatchId(dataset, "2015");
     let bowlerBRuns = await getBollsCountAndRunsEachBowler(dataset2, idOf2015)
     return new Promise(function (resolve, reject) {
-        // console.log(matchId2016);
-        // let count = 0;
         for (let key in bowlerBRuns) {
             // console.log(Number( bowlerBRuns[key]["totalRuns"]));
             bowlerBRuns[key] = ((Number(bowlerBRuns[key]["totalRuns"])) / Number(bowlerBRuns[key]["count"]) * 6);
         }
         //    console.log(bowlerBRuns);
         bowlerBRuns = sortBowlersWrtEconomy(bowlerBRuns);
-
         resolve(bowlerBRuns);
     });
 }
@@ -241,6 +206,51 @@ function sortBowlersWrtEconomy(obj) {
 }
 
 
+//------------------------- Question no. 5 -------------------------------------
+// Most scored bats man of season 2017
+
+
+
+getScoreOfEachBatsman().then(function(result) {
+    // console.log(result) //will log results.
+ });
+
+async function getScoreOfEachBatsman() {
+    let batsManRuns = {};
+    //  console.log(ID);
+    let idOf2017 = await getMatchId(dataset,'2017');
+    return new Promise(function (resolve, reject) {
+        // console.log(matchId2016);
+        // let count = 0;
+        fs.readFile(dataset2, function (err, data1) {
+            if (err)
+                reject(err);
+            else {
+                data1.toString().split("\n").forEach(function (line, index, arr) {
+                    if (index != 0) {
+                        let match = line.split(",");
+                         
+                        if (idOf2017.includes(match[0])) {
+                            
+                            if (batsManRuns.hasOwnProperty(match[6])) {
+                                // batsManRuns[match[8]]["count"]++;
+                                batsManRuns[match[6]] += Number(match[15]);
+                            } else {
+                               
+                                
+                                batsManRuns[match[6]] =  Number(match[15]) ;
+                            }
+                        }
+                    }
+                });
+            }
+            // console.log(Object.keys(batsManRuns).length);
+            batsManRuns = sortBowlersWrtEconomy(batsManRuns);
+            // console.log(batsManRuns);
+            resolve(batsManRuns);
+        });
+    });
+}
 
 
 
@@ -252,7 +262,6 @@ module.exports = {
     getExtraRunsPerTeam: getExtraRunsPerTeam,
     getBollsCountAndRunsEachBowler: getBollsCountAndRunsEachBowler,
     getEconomicRateOfEachBowler: getEconomicRateOfEachBowler,
-    sortBowlersWrtEconomy: sortBowlersWrtEconomy
-    // topEconomicBowler, topEconomicBowler
-    // extraRunsScored: extraRunsScored
+    sortBowlersWrtEconomy: sortBowlersWrtEconomy,
+    getScoreOfEachBatsman: getScoreOfEachBatsman
 }
