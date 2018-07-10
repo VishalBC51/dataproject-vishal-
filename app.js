@@ -100,17 +100,24 @@ function getMatchId(dataset, yearOf) {
         })
     })
 }
-// getMatchId(dataset,"2016")
-getMatchId(dataset, "2016").then(function (data) {
-    getExtraRunsPerTeam(dataset2, data);
-});
-let extraRuns = {};
-function getExtraRunsPerTeam(dataset2, idArr) {
 
+// getMatchId(dataset,"2016")
+// getMatchId(dataset, "2016").then(async function (data) {
+//     let extraruns =await getExtraRunsPerTeam(dataset2, data);
+//     console.log(extraruns)
+// });
+// let extraRuns = {};
+ getExtraRunsPerTeam(dataset, dataset2).then(function(result) {
+    console.log(result) //will log results.
+ });
+// getExtraRunsPerTeam(dataset, dataset2)
+function getExtraRunsPerTeam(dataset, dataset2) {
+    let extraRuns = {};
     //  console.log(ID);
-    return new Promise(function (resolve, reject) {
+    return new Promise(async function (resolve, reject) {
         // console.log(matchId2016);
         // let count = 0;
+        let idArr = await getMatchId(dataset,'2016');
         fs.readFile(dataset2, function (err, data1) {
             if (err)
                 reject(err);
@@ -137,6 +144,7 @@ function getExtraRunsPerTeam(dataset2, idArr) {
 function getBollsCountAndRunsEachBowler(dataset2, idOf2015) {
     let bowlerBRuns = {};
     //  console.log(ID);
+    
     return new Promise(function (resolve, reject) {
         // console.log(matchId2016);
         // let count = 0;
@@ -168,21 +176,42 @@ function getBollsCountAndRunsEachBowler(dataset2, idOf2015) {
 // let arr= ['577','578'];
 // let dataset3 = path.resolve("data/Testdeliveries.csv");
 // let dataset4 = path.resolve("data/Testmatches.csv");
-topEconomicBowler(dataset, dataset2);
-function topEconomicBowler(dataset, dataset2) {
-    return new Promise(function (resolve, reject) {
-        getMatchId(dataset, "2015").then(function (data6) {
-            getBollsCountAndRunsEachBowler(dataset2, data6).then(function (data7) {
-                getEconomicRateOfEachBowler(data7);
-            });
-        });
-    });
-}
+// console.log(topEconomicBowler(dataset, dataset2));
+// function topEconomicBowler(dataset, dataset2) {
+//     getMatchId(dataset, "2015").then(function (data6) {
+//         getBollsCountAndRunsEachBowler(dataset2, data6).then(function (data7) {
+//             getEconomicRateOfEachBowler(data7).then(function (gettingFinalValue) {
+//                 return (gettingFinalValue);
+//             })
+//         });
+//     });
+// }
+// console.log(topEconomicBowler(dataset, dataset2));
+// async function topEconomicBowler(dataset, dataset2) {
+   
+    
+    
+   
+    
+//     let gettingFinalValue = await getEconomicRateOfEachBowler();
+//    // console.log(gettingFinalValue);
+//    return gettingFinalValue;
+//     // gettingFinalValue.then(function(result) {
+//     //     console.log(result);
+//     //  })
+
+// }
 // bowlerBRuns = { 'HH Pandya':  { count: 12, totalRuns: 36 } ,
 //   'AD Russell':  { count: 12, totalRuns: 28 }  };
 //   getEconomicRateOfEachBowler(bowlerBRuns);
-function getEconomicRateOfEachBowler(bowlerBRuns) {
+getEconomicRateOfEachBowler().then(function(result) {
+    // console.log(result) //will log results.
+ });
+
+async function getEconomicRateOfEachBowler() {
     //  console.log(ID);
+    let idOf2015 = await getMatchId(dataset, "2015");
+    let bowlerBRuns = await getBollsCountAndRunsEachBowler(dataset2, idOf2015)
     return new Promise(function (resolve, reject) {
         // console.log(matchId2016);
         // let count = 0;
@@ -192,14 +221,12 @@ function getEconomicRateOfEachBowler(bowlerBRuns) {
         }
         //    console.log(bowlerBRuns);
         bowlerBRuns = sortBowlersWrtEconomy(bowlerBRuns);
-        // console.log(bowlerBRuns);
 
         resolve(bowlerBRuns);
     });
 }
 
 function sortBowlersWrtEconomy(obj) {
-    // return new Promise(function (resolve, reject) {
     var arr1 = [];
     for (var prop in obj) {
         if (obj.hasOwnProperty(prop)) {
@@ -211,8 +238,6 @@ function sortBowlersWrtEconomy(obj) {
     }
     arr1.sort(function (a, b) { return a.value - b.value; });
     return arr1; // returns array
-    // resolve(arr1);
-    // });
 }
 
 
@@ -227,7 +252,7 @@ module.exports = {
     getExtraRunsPerTeam: getExtraRunsPerTeam,
     getBollsCountAndRunsEachBowler: getBollsCountAndRunsEachBowler,
     getEconomicRateOfEachBowler: getEconomicRateOfEachBowler,
-    sortBowlersWrtEconomy: sortBowlersWrtEconomy,
-    topEconomicBowler, topEconomicBowler
+    sortBowlersWrtEconomy: sortBowlersWrtEconomy
+    // topEconomicBowler, topEconomicBowler
     // extraRunsScored: extraRunsScored
 }

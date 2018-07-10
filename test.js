@@ -93,7 +93,7 @@ xdescribe("testing second question", function () {
   });
 });
 
-describe("testing third question", function () {
+xdescribe("testing third question", function () {
 
   it("Get all the Id Of matched played in 2016", function (done) {
     operations.getMatchId(dataset, '2016').then(function (data) {
@@ -122,7 +122,7 @@ describe("testing third question", function () {
 });
 
 
-describe("testing forth question", function () {
+xdescribe("testing forth question", function () {
 
   xit("checking whether function returns value or not", function (done) {
     operations.getBollsCountAndRunsEachBowler(dataset2, ["1"]).then(function (data) {
@@ -191,18 +191,18 @@ describe("testing forth question", function () {
   //       expect(t1).deep.equal(res);
   
   // });
-  // it("integrating all function", function (done) {
-  //   let obj = { 'HH Pandya': 18, 'AD Russell': 14 };
-  //   operations.sortBowlersWrtEconomy(obj).then(function (data) {
-  //     try {
-  //       let expectresult1 = [{ key: 'AD Russell', value: 14 },
-  //       { key: 'HH Pandya', value: 18 }];
-  //       // console.log(data)
-  //       expect(data).to.deep.equal(expectresult1);
-  //       done(); // success: call done with no parameter to indicate that it() is done()
-  //     } catch (e) {
-  //       done(e); // failure: call done with an error Object to indicate that it() failed
-  //     }
-  //   });
-  // });
+  it("integrating all function", function (done) {
+    // let obj = { 'HH Pandya': 18, 'AD Russell': 14 };
+    operations.topEconomicBowler(dataset, dataset2).then(function (data) {
+      try {
+        let expectresult1 = [{ key: 'AD Russell', value: 14 },
+        { key: 'HH Pandya', value: 18 }];
+        // console.log(data)
+        expect(data).to.deep.equal(expectresult1);
+        done(); // success: call done with no parameter to indicate that it() is done()
+      } catch (e) {
+        done(e); // failure: call done with an error Object to indicate that it() failed
+      }
+    });
+  });
 })
