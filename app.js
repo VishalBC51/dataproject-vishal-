@@ -208,9 +208,7 @@ getEconomicRateOfEachBowler().then(function(result) {
 
 
 
-getScoreOfEachBatsman().then(function(result) {
-    // console.log(result) //will log results.
- });
+
 
 async function getScoreOfEachBatsman() {
     let batsManRuns = {};
@@ -248,9 +246,9 @@ async function getScoreOfEachBatsman() {
         });
     });
 }
-
-
-
+getScoreOfEachBatsman().then(function(result) {
+    // console.log(result) //will log results.
+ });
 
 module.exports = {
     matchesPerYear: matchesPerYear,
