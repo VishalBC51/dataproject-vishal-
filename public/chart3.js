@@ -3,22 +3,12 @@ let  playerName= [];
 let economy= [];
 let obj ={};
 let l =getEconomicRateOfEachBowler.length;
-for(let i=l-1;i>l-10;i--){
+for(let i=0;i<l-89;i++){
     obj[getEconomicRateOfEachBowler[i]['key']] = getEconomicRateOfEachBowler[i]['value'];
 }
 console.log(obj+"JJ");
 economy =  Object.values(obj);
 playerName = Object.keys(obj);
-// console.log(years);
-// console.log(matches);
-
-
-// for (let i=0 ; i < years.length; i++) {
-//     if (years[i] !== 'undefined') {
-//         // years.push(value);
-//         matches.push(matchesPerYear[years[i]]);
-//     }
-// }
 
 let container2 = document.createElement("div");
 document.body.appendChild(container2);

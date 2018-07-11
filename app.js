@@ -16,7 +16,6 @@ let matchesPerYear = function (dataset) {
                         const match = line.split(",");
                         const season = match[1];
                         if (season) {
-
                             if (matchesPerSeason.hasOwnProperty(season)) {
                                 matchesPerSeason[season]++;
                             } else {
@@ -26,7 +25,6 @@ let matchesPerYear = function (dataset) {
                     }
                 });
             }
-            // console.log(matchesPerSeason);
             resolve(matchesPerSeason);
         });
     });
@@ -44,7 +42,6 @@ let seasonPerTeamWinningVar = function (dataset) {
                 reject(err);
             } else {
                 data.toString().split("\n").forEach(function (line, index, arr) {
-
                     if (index !== 0) {
                         const match = line.split(",");
                         const season = match[1];
@@ -55,11 +52,9 @@ let seasonPerTeamWinningVar = function (dataset) {
                             obj[team] = 1;
                             arr.push(obj);
                             seasonPerTeamWinning[season] = arr;
-
                         } else {
                             if (!(seasonPerTeamWinning[season][0][team])) {
                                 seasonPerTeamWinning[season][0][team] = 1;
-
                             } else {
                                 seasonPerTeamWinning[season][0][team]++;
                             }
@@ -67,7 +62,6 @@ let seasonPerTeamWinningVar = function (dataset) {
                     }
                 });
             }
-            // console.log(seasonPerTeamWinning);
             resolve(seasonPerTeamWinning);
         });
     });
@@ -82,8 +76,6 @@ seasonPerTeamWinningVar(dataset);
 function getMatchId(dataset, yearOf) {
     let matchId = [];
     return new Promise(function (resolve, reject) {
-        // console.log(matchId2016);
-        let count = 0;
         fs.readFile(dataset, function (err, data) {
             if (err)
                 reject(err);
@@ -91,30 +83,24 @@ function getMatchId(dataset, yearOf) {
                 data.toString().split("\n").forEach(function (line, index, arr) {
                     if (index != 0) {
                         let match = line.split(",");
-                        // console.log(matchId2016 + "EEs" + match[1])
                         if (match[1] === yearOf) {
                             matchId.push(match[0]);
                         }
                     }
                 })
             }
-            // console.log(matchId);
             resolve(matchId);
         })
     })
 }
 
- getExtraRunsPerTeam(dataset, dataset2).then(function(result) {
-    // console.log(result) //will log results.
- });
+getExtraRunsPerTeam(dataset, dataset2).then(function (result) {
+});
 // getExtraRunsPerTeam(dataset, dataset2)
 function getExtraRunsPerTeam(dataset, dataset2) {
     let extraRuns = {};
-    //  console.log(ID);
     return new Promise(async function (resolve, reject) {
-        // console.log(matchId2016);
-        // let count = 0;
-        let idArr = await getMatchId(dataset,'2016');
+        let idArr = await getMatchId(dataset, '2016');
         fs.readFile(dataset2, function (err, data1) {
             if (err)
                 reject(err);
@@ -142,11 +128,8 @@ function getExtraRunsPerTeam(dataset, dataset2) {
 
 function getBollsCountAndRunsEachBowler(dataset2, idOf2015) {
     let bowlerBRuns = {};
-    //  console.log(ID);
-    
+
     return new Promise(function (resolve, reject) {
-        // console.log(matchId2016);
-        // let count = 0;
         fs.readFile(dataset2, function (err, data1) {
             if (err)
                 reject(err);
@@ -154,13 +137,16 @@ function getBollsCountAndRunsEachBowler(dataset2, idOf2015) {
                 data1.toString().split("\n").forEach(function (line, index, arr) {
                     if (index != 0) {
                         let match = line.split(",");
-
                         if (idOf2015.includes(match[0])) {
                             if (bowlerBRuns.hasOwnProperty(match[8])) {
+                                // console.log('hello')
                                 bowlerBRuns[match[8]]["count"]++;
                                 bowlerBRuns[match[8]]["totalRuns"] += Number(match[17]);
+                                if(match[10] != 0 || match[13] != 0) {
+                                     bowlerBRuns[match[8]]["count"]--;
+                                    //  console.log("this")
+                                }
                             } else {
-
                                 bowlerBRuns[match[8]] = { "count": 1, "totalRuns": Number(match[17]) };
                             }
                         }
@@ -168,26 +154,27 @@ function getBollsCountAndRunsEachBowler(dataset2, idOf2015) {
                 });
             }
             // console.log(bowlerBRuns);
+
             resolve(bowlerBRuns);
         });
     });
 }
 
 //to resolve promise function
-getEconomicRateOfEachBowler().then(function(result) {
-    // console.log(result) //will log results.
- });
+getEconomicRateOfEachBowler(dataset,dataset2).then(function (result) {
+});
 
-async function getEconomicRateOfEachBowler() {
+async function getEconomicRateOfEachBowler(dataset,dataset2) {
     let idOf2015 = await getMatchId(dataset, "2015");
+    // console.log(idOf2015)
     let bowlerBRuns = await getBollsCountAndRunsEachBowler(dataset2, idOf2015)
     return new Promise(function (resolve, reject) {
         for (let key in bowlerBRuns) {
-            // console.log(Number( bowlerBRuns[key]["totalRuns"]));
             bowlerBRuns[key] = ((Number(bowlerBRuns[key]["totalRuns"])) / Number(bowlerBRuns[key]["count"]) * 6);
         }
-        //    console.log(bowlerBRuns);
         bowlerBRuns = sortBowlersWrtEconomy(bowlerBRuns);
+        // console.log(bowlerBRuns);
+        
         resolve(bowlerBRuns);
     });
 }
@@ -211,18 +198,13 @@ function sortBowlersWrtEconomy(obj) {
 // Most scored bats man of season 2017
 
 
+getScoreOfEachBatsman(dataset,dataset2).then(function (result) {
+});
 
-getScoreOfEachBatsman().then(function(result) {
-    // console.log(result) //will log results.
- });
-
-async function getScoreOfEachBatsman() {
+async function getScoreOfEachBatsman(dataset,dataset2) {
     let batsManRuns = {};
-    //  console.log(ID);
-    let idOf2017 = await getMatchId(dataset,'2017');
+    let idOf2017 = await getMatchId(dataset, '2017');
     return new Promise(function (resolve, reject) {
-        // console.log(matchId2016);
-        // let count = 0;
         fs.readFile(dataset2, function (err, data1) {
             if (err)
                 reject(err);
@@ -230,31 +212,22 @@ async function getScoreOfEachBatsman() {
                 data1.toString().split("\n").forEach(function (line, index, arr) {
                     if (index != 0) {
                         let match = line.split(",");
-                         
                         if (idOf2017.includes(match[0])) {
-                            
+
                             if (batsManRuns.hasOwnProperty(match[6])) {
-                                // batsManRuns[match[8]]["count"]++;
                                 batsManRuns[match[6]] += Number(match[15]);
                             } else {
-                               
-                                
-                                batsManRuns[match[6]] =  Number(match[15]) ;
+                                batsManRuns[match[6]] = Number(match[15]);
                             }
                         }
                     }
                 });
             }
-            // console.log(Object.keys(batsManRuns).length);
             batsManRuns = sortBowlersWrtEconomy(batsManRuns);
-            // console.log(batsManRuns);
             resolve(batsManRuns);
         });
     });
 }
-
-
-
 
 module.exports = {
     matchesPerYear: matchesPerYear,
@@ -265,5 +238,4 @@ module.exports = {
     getEconomicRateOfEachBowler: getEconomicRateOfEachBowler,
     sortBowlersWrtEconomy: sortBowlersWrtEconomy,
     getScoreOfEachBatsman: getScoreOfEachBatsman
-    
 }

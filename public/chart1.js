@@ -1,21 +1,8 @@
-/* jshint esversion:6 */
-// Create the chart
-// console.log("charts1");
 let matchesPerYear = (window.data);
 let years = [];
 let matches = [];
 years =  Object.keys(matchesPerYear);
 matches = Object.values(matchesPerYear);
-// console.log(years);
-// console.log(matches);
-
-
-// for (let i=0 ; i < years.length; i++) {
-//     if (years[i] !== 'undefined') {
-//         // years.push(value);
-//         matches.push(matchesPerYear[years[i]]);
-//     }
-// }
 
 let container = document.createElement("div");
 document.body.appendChild(container);

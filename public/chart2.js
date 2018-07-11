@@ -3,16 +3,6 @@ let extraRun = [];
 let matche = [];
 extraRun =  Object.values(getExtraRunsPerTeam);
 matche = Object.keys(getExtraRunsPerTeam);
-// console.log(years);
-// console.log(matches);
-
-
-// for (let i=0 ; i < years.length; i++) {
-//     if (years[i] !== 'undefined') {
-//         // years.push(value);
-//         matches.push(matchesPerYear[years[i]]);
-//     }
-// }
 
 let container1 = document.createElement("div");
 document.body.appendChild(container1);

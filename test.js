@@ -1,34 +1,38 @@
 const expect = require("chai").expect;
 const path = require("path");
-let dataset = path.resolve("data/Testmatches.csv");
+const app = require("./app")
+let dataset4 = path.resolve("data/Testmatches.csv");
+let dataset = path.resolve("data/Testmatches1.csv");
+let dataset2q = path.resolve("data/Testmatches2.csv");
+let dataset3q = path.resolve("data/Testmatches3.csv");
 const fileName = path.resolve("app.js");
 let dataset2 = path.resolve("data/Testdeliveries.csv");
+let dataset5 = path.resolve("data/Testdeliveries5q.csv");
 const operations = require(fileName);
 
-xdescribe("testing first question", function () {
-  xit("return false", function (done) {
-    operations.matchesPerYear(dataset).then(function (data) {
-      try {
-        expect(data).to.deep.equal(false)
-        done(); // success: call done with no parameter to indicate that it() is done()
-      } catch (e) {
-        done(e); // failure: call done with an error Object to indicate that it() failed
-      }
-    });
-  });
+describe("testing first question", function () {
+  // it("return false", function (done) {
+  //   operations.matchesPerYear(dataset).then(function (data) {
+  //     try {
+  //       expect(data).to.deep.equal(false)
+  //       done(); 
+  //     } catch (e) {
+  //       done(e); 
+  //     }
+  //   });
+  // });
   it("should return total number of matches played per year", function (done) {
     const expectedResult = {
       2009: 2,
       2017: 1,
       2008: 1
     };
-
     operations.matchesPerYear(dataset).then(function (data) {
       try {
         expect(data).to.deep.equal(expectedResult);
-        done(); // success: call done with no parameter to indicate that it() is done()
+        done(); 
       } catch (e) {
-        done(e); // failure: call done with an error Object to indicate that it() failed
+        done(e); 
       }
     });
   });
@@ -42,9 +46,9 @@ xdescribe("testing first question", function () {
     operations.matchesPerYear(dataset).then(function (data) {
       try {
         expect(data).to.deep.equal(expectedResult);
-        done(); // success: call done with no parameter to indicate that it() is done()
+        done(); 
       } catch (e) {
-        done(e); // failure: call done with an error Object to indicate that it() failed
+        done(e); 
       }
     });
   });
@@ -55,89 +59,94 @@ xdescribe("testing first question", function () {
     operations.matchesPerYear(datasettemp).then(function (data) {
       try {
         expect(data).to.deep.equal(expectedResult);
-        done(); // success: call done with no parameter to indicate that it() is done()
+        done(); 
       } catch (e) {
-        done(e); // failure: call done with an error Object to indicate that it() failed
+        done(e); 
       }
     });
   });
 });
 
-xdescribe("testing second question", function () {
+describe("testing second question", function () {
   it("IT should return empty object", function (done) {
-    operations.seasonPerTeamWinningVar(dataset).then(function (data) {
+    let datasetem = path.resolve("data/empty.csv");
+    operations.seasonPerTeamWinningVar(datasetem).then(function (data) {
       try {
         let expectresult1 = {};
-        expect({}).to.deep.equal(expectresult1);
-        done(); // success: call done with no parameter to indicate that it() is done()
+        expect(data).to.deep.equal(expectresult1);
+        done(); 
       } catch (e) {
-        done(e); // failure: call done with an error Object to indicate that it() failed
+        done(e); 
       }
     });
   });
 
   it("return each year with single match pair", function (done) {
-    operations.seasonPerTeamWinningVar(dataset).then(function (data) {
+    operations.seasonPerTeamWinningVar(dataset2q).then(function (data) {
       try {
         let expectresult = {
           "2008": [{ "Chennai Super Kings": 1 }],
-          "2009": [{ "Royal Challengers Bangalore": 1, "Deccan Chargers": 1 }],
+          "2009": [{ "Royal Challengers Bangalore": 2}],
           "2017": [{ "Sunrisers Hyderabad": 1 }]
         };
         expect(data).deep.equal(expectresult);
-        done(); // success: call done with no parameter to indicate that it() is done()
+        done(); 
       } catch (e) {
-        done(e); // failure: call done with an error Object to indicate that it() failed
+        done(e);
       }
     });
   });
 });
 
-xdescribe("testing third question", function () {
+describe("testing third question", function () {
 
   it("Get all the Id Of matched played in 2016", function (done) {
-    operations.getMatchId(dataset, '2016').then(function (data) {
+    operations.getMatchId(dataset3q, '2016').then(function (data) {
       try {
         let expectresult1 = ["577", "578", "579", "580"];
-        // console.log(data)
         expect(data).to.deep.equal(expectresult1);
-        done(); // success: call done with no parameter to indicate that it() is done()
+        done(); 
       } catch (e) {
-        done(e); // failure: call done with an error Object to indicate that it() failed
+        done(e); 
       }
     });
   });
   it("getExtraRunsPerTeam function : extraruns of each team played in 2016", function (done) {
-    let input1 = ["577", "578"];
-    operations.getExtraRunsPerTeam(dataset2, input1).then(function (data) {
+    // let input1 = ["577", "578"];
+    dataset3qD=path.resolve("data/Testdeliveries3q.csv")
+    operations.getExtraRunsPerTeam(dataset3q,dataset3qD).then(function (data) {
       try {
-        let expectresult1 = { "Kolkata Knight Riders": 3, "Mumbai Indians": 2 };
+        let expectresult1 = { "Kolkata Knight Riders": 2, "Mumbai Indians": 3 };
         expect(data).to.deep.equal(expectresult1);
-        done(); // success: call done with no parameter to indicate that it() is done()
+        done(); 
       } catch (e) {
-        done(e); // failure: call done with an error Object to indicate that it() failed
+        done(e); 
       }
     });
   });
 });
 
 
-xdescribe("testing forth question", function () {
+describe("testing forth question", function () {
 
-  xit("checking whether function returns value or not", function (done) {
-    operations.getBollsCountAndRunsEachBowler(dataset2, ["1"]).then(function (data) {
+  it("checking whether function returns value or not", function (done) {
+    operations.getBollsCountAndRunsEachBowler(dataset2, ["577"]).then(function (data) {
       try {
-        let expectresult1 = ["1"];
-        // console.log(data)
+        let expectresult1 = {
+          "HH Pandya": {
+            "count": 6,
+            "totalRuns": 36
+          }
+        };
         expect(data).to.deep.equal(expectresult1);
-        done(); // success: call done with no parameter to indicate that it() is done()
+        done(); 
       } catch (e) {
-        done(e); // failure: call done with an error Object to indicate that it() failed
+        done(e); 
       }
     });
   });
 
-  xit("get Count of balls and Total runs per player", function (done) {
+  it("get Count of balls and Total runs per player", function (done) {
     let arr = ['577', '578'];
     operations.getBollsCountAndRunsEachBowler(dataset2, arr).then(function (data) {
       try {
@@ -145,78 +154,65 @@ xdescribe("testing forth question", function () {
           'HH Pandya': { count: 6, totalRuns: 36 },
           'AD Russell': { count: 7, totalRuns: 28 }
         };
-        // console.log(data)
         expect(data).to.deep.equal(expectresult1);
-        done(); // success: call done with no parameter to indicate that it() is done()
+        done(); 
       } catch (e) {
-        done(e); // failure: call done with an error Object to indicate that it() failed
+        done(e); 
       }
     });
   });
-  xit("get Economic rate of each player", function (done) {
-    let arr = {
-      'HH Pandya': { count: 12, totalRuns: 36 },
-      'AD Russell': { count: 12, totalRuns: 28 }
-    };
-    operations.getEconomicRateOfEachBowler(arr).then(function (data) {
+  it("get Economic rate of each player", function (done) {
+    // let arr = {
+    //   'HH Pandya': { count: 12, totalRuns: 36 },
+    //   'AD Russell': { count: 12, totalRuns: 28 }
+    // };
+    operations.getEconomicRateOfEachBowler(dataset4,dataset2).then(function (data) {
       try {
-        let expectresult1 = { 'HH Pandya': 18, 'AD Russell': 14 };
-        // console.log(data)
+        let expectresult1 =[{
+          "key": "AD Russell",
+          "value": 24
+        },
+      {
+        "key": "HH Pandya",
+        "value": 36
+      }];
         expect(data).to.deep.equal(expectresult1);
-        done(); // success: call done with no parameter to indicate that it() is done()
+        done(); 
       } catch (e) {
-        done(e); // failure: call done with an error Object to indicate that it() failed
+        done(e); 
       }
     });
   });
-  it("sort bowler Object based on economy", function (done) {
+  it("sort bowler Object based on economy", function () {
     let obj = { 'HH Pandya': 18, 'AD Russell': 14 };
-    operations.sortBowlersWrtEconomy(obj).then(function (data) {
-      try {
-        let expectresult1 = [{ key: 'AD Russell', value: 14 },
+    // operations.sortBowlersWrtEconomy(obj).then(function (data) {
+    //   try {
+    //     let expectresult1 = [{ key: 'AD Russell', value: 14 },
+    //     { key: 'HH Pandya', value: 18 }];
+    //     expect(data).to.deep.equal(expectresult1);
+    //     done(); 
+    //   } catch (e) {
+    //     done(e); 
+    //   }
+    // });
+    let res = app.sortBowlersWrtEconomy(obj);
+    let expectresult1 = [{ key: 'AD Russell', value: 14 },
         { key: 'HH Pandya', value: 18 }];
-        // console.log(data)
-        expect(data).to.deep.equal(expectresult1);
-        done(); // success: call done with no parameter to indicate that it() is done()
-      } catch (e) {
-        done(e); // failure: call done with an error Object to indicate that it() failed
-      }
-    });
-  });
-  // it("integrating all function", function () {
-  //   var t1 = topEconomicBowler(dataset, dataset2) 
+    expect(res).to.deep.equal(expectresult1);
 
-  //     let res = [{ key: 'AD Russell', value: 24 },
-  //     { key: 'HH Pandya', value: 36 }]
-  //       expect(t1).deep.equal(res);
-  
-  // });
-  xit("integrating all function", function (done) {
-    // let obj = { 'HH Pandya': 18, 'AD Russell': 14 };
-    operations.topEconomicBowler(dataset, dataset2).then(function (data) {
-      try {
-        let expectresult1 = [{ key: 'AD Russell', value: 14 },
-        { key: 'HH Pandya', value: 18 }];
-        // console.log(data)
-        expect(data).to.deep.equal(expectresult1);
-        done(); // success: call done with no parameter to indicate that it() is done()
-      } catch (e) {
-        done(e); // failure: call done with an error Object to indicate that it() failed
-      }
-    });
   });
 });
 
 describe("testing fifth question", function () {
-  it("return false", function (done) {
-    let idOf2017 = ["577","578"]
-    let expectedResult = { 'AM Rahane': 36, 'MA Agarwal': 28 }
-    operations.getScoreOfEachBatsman(dataset2, idOf2017).then(function (data) {
+  it("return Top Bats man", function (done) {
+    // let idOf2017 = ["577", "578"]
+    let expectedResult = [{ "key":'AM Rahane',"value" : 6 }]
+    operations.getScoreOfEachBatsman(dataset,dataset5).then(function (data) {
       try {
-        expect(data).to.deep.equal(expectedResult)
-        done(); // success: call done with no parameter to indicate that it() is done()
+        expect(data).deep.equal(expectedResult)
+        done(); 
       } catch (e) {
-        done(e); // failure: call done with an error Object to indicate that it() failed
+        done(e); 
       }
     });
   });

@@ -11,13 +11,13 @@
     "type": "git",
     "url": "git@gitlab.com:mountblue/june-j4/DataProject-vishal.git"
   },
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "chai": "^4.1.2",
     "ejs": "^2.6.1",
     "express": "^4.16.3",
     "mocha": "^5.2.0",
-    "nodemon": "^1.17.5"
+    "nodemon": "^1.18.0"
   },
-  "devDependencies": {},
   "description": ""
 }
