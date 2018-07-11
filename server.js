@@ -22,7 +22,7 @@ appValues.getExtraRunsPerTeam(dataset1, dataset2).then(function (data) {
     // console.log(getExtraRunsPerTeam);
 });
 
-app.get("/2", function (req, res) {
+app.get("/3", function (req, res) {
     res.render("index2", { getExtraRunsPerTeam: JSON.stringify(getExtraRunsPerTeam) });
     // console.log(getExtraRunsPerTeam);
 });
@@ -32,7 +32,7 @@ appValues.getEconomicRateOfEachBowler().then(function (data) {
     // console.log(getExtraRunsPerTeam);
 });
 
-app.get("/3", function (req, res) {
+app.get("/4", function (req, res) {
     res.render("index3", { getEconomicRateOfEachBowler: JSON.stringify(getEconomicRateOfEachBowler) });
     // console.log(getExtraRunsPerTeam);
 });
@@ -42,7 +42,7 @@ appValues.getScoreOfEachBatsman().then(function (data) {
     // console.log(getExtraRunsPerTeam);
 });
 
-app.get("/4", function (req, res) {
+app.get("/5", function (req, res) {
     res.render("index4", { getScoreOfEachBatsman: JSON.stringify(getScoreOfEachBatsman) });
     // console.log(getExtraRunsPerTeam);
 });
@@ -52,7 +52,7 @@ appValues.seasonPerTeamWinningVar(dataset1).then(function (data) {
     // console.log(getExtraRunsPerTeam);
 });
 
-app.get("/5", function (req, res) {
+app.get("/2", function (req, res) {
     res.render("index5", { seasonPerTeamWinningVar: JSON.stringify(seasonPerTeamWinningVar) });
 });
-app.listen(3000);
+app.listen(3001);

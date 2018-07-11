@@ -44,6 +44,7 @@ let seasonPerTeamWinningVar = function (dataset) {
                 reject(err);
             } else {
                 data.toString().split("\n").forEach(function (line, index, arr) {
+
                     if (index !== 0) {
                         const match = line.split(",");
                         const season = match[1];
@@ -66,7 +67,7 @@ let seasonPerTeamWinningVar = function (dataset) {
                     }
                 });
             }
-            console.log(seasonPerTeamWinning);
+            // console.log(seasonPerTeamWinning);
             resolve(seasonPerTeamWinning);
         });
     });
@@ -88,7 +89,7 @@ function getMatchId(dataset, yearOf) {
                 reject(err);
             else {
                 data.toString().split("\n").forEach(function (line, index, arr) {
-                    if (index !== 0) {
+                    if (index != 0) {
                         let match = line.split(",");
                         // console.log(matchId2016 + "EEs" + match[1])
                         if (match[1] === yearOf) {
@@ -103,13 +104,17 @@ function getMatchId(dataset, yearOf) {
     })
 }
 
+ getExtraRunsPerTeam(dataset, dataset2).then(function(result) {
+    // console.log(result) //will log results.
+ });
+// getExtraRunsPerTeam(dataset, dataset2)
 function getExtraRunsPerTeam(dataset, dataset2) {
     let extraRuns = {};
     //  console.log(ID);
     return new Promise(async function (resolve, reject) {
         // console.log(matchId2016);
         // let count = 0;
-        let idArr = await getMatchId(dataset,"2016");
+        let idArr = await getMatchId(dataset,'2016');
         fs.readFile(dataset2, function (err, data1) {
             if (err)
                 reject(err);
@@ -132,14 +137,13 @@ function getExtraRunsPerTeam(dataset, dataset2) {
         });
     });
 }
-getExtraRunsPerTeam(dataset, dataset2).then(function(result) {
-    // console.log(result) //will log results.
- });
 
 // ---------------------------------question 4----------------------------------------
 
 function getBollsCountAndRunsEachBowler(dataset2, idOf2015) {
     let bowlerBRuns = {};
+    //  console.log(ID);
+    
     return new Promise(function (resolve, reject) {
         // console.log(matchId2016);
         // let count = 0;
@@ -169,13 +173,32 @@ function getBollsCountAndRunsEachBowler(dataset2, idOf2015) {
     });
 }
 
+//to resolve promise function
+getEconomicRateOfEachBowler().then(function(result) {
+    // console.log(result) //will log results.
+ });
+
+async function getEconomicRateOfEachBowler() {
+    let idOf2015 = await getMatchId(dataset, "2015");
+    let bowlerBRuns = await getBollsCountAndRunsEachBowler(dataset2, idOf2015)
+    return new Promise(function (resolve, reject) {
+        for (let key in bowlerBRuns) {
+            // console.log(Number( bowlerBRuns[key]["totalRuns"]));
+            bowlerBRuns[key] = ((Number(bowlerBRuns[key]["totalRuns"])) / Number(bowlerBRuns[key]["count"]) * 6);
+        }
+        //    console.log(bowlerBRuns);
+        bowlerBRuns = sortBowlersWrtEconomy(bowlerBRuns);
+        resolve(bowlerBRuns);
+    });
+}
+
 function sortBowlersWrtEconomy(obj) {
     var arr1 = [];
     for (var prop in obj) {
         if (obj.hasOwnProperty(prop)) {
             arr1.push({
-                "key": prop,
-                "value": obj[prop]
+                'key': prop,
+                'value': obj[prop]
             });
         }
     }
@@ -183,37 +206,20 @@ function sortBowlersWrtEconomy(obj) {
     return arr1; // returns array
 }
 
-async function getEconomicRateOfEachBowler() {
-    let idOf2015 = await getMatchId(dataset, "2015");
-    let bowlerBRuns = await getBollsCountAndRunsEachBowler(dataset2, idOf2015)
-    return new Promise(function (resolve, reject) {
-        for (let key in bowlerBRuns) {
-            bowlerBRuns[key] = ((Number(bowlerBRuns[key]["totalRuns"])) / Number(bowlerBRuns[key]["count"]) * 6);
-        }
-        bowlerBRuns = sortBowlersWrtEconomy(bowlerBRuns);
-        resolve(bowlerBRuns);
-    });
-}
-
-
-
-//to resolve promise function
-getEconomicRateOfEachBowler().then(function(result) {
-    // console.log(result) //will log results.
- });
-
 
 //------------------------- Question no. 5 -------------------------------------
 // Most scored bats man of season 2017
 
 
 
-
+getScoreOfEachBatsman().then(function(result) {
+    // console.log(result) //will log results.
+ });
 
 async function getScoreOfEachBatsman() {
     let batsManRuns = {};
     //  console.log(ID);
-    let idOf2017 = await getMatchId(dataset,"2017");
+    let idOf2017 = await getMatchId(dataset,'2017');
     return new Promise(function (resolve, reject) {
         // console.log(matchId2016);
         // let count = 0;
@@ -246,9 +252,9 @@ async function getScoreOfEachBatsman() {
         });
     });
 }
-getScoreOfEachBatsman().then(function(result) {
-    // console.log(result) //will log results.
- });
+
+
+
 
 module.exports = {
     matchesPerYear: matchesPerYear,
@@ -259,4 +265,5 @@ module.exports = {
     getEconomicRateOfEachBowler: getEconomicRateOfEachBowler,
     sortBowlersWrtEconomy: sortBowlersWrtEconomy,
     getScoreOfEachBatsman: getScoreOfEachBatsman
+    
 }
